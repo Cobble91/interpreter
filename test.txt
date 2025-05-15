@@ -1,0 +1,7 @@
+fn my_function(int input, string another_input) -> string {
+  int x = 42
+  float y = -12.34
+  float z = x + x*y
+  string s = "this is a string\n" # and this is a comment
+  # this whole line is a comment!
+}
