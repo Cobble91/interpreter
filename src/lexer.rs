@@ -132,27 +132,12 @@ pub fn lex(input: String) -> Vec<Token> {
         // punctuation
         else if !c.is_alphanumeric() {
             // let word:String = c.to_string();
-                // // delimiters
-                // // single
-                // Period, Comma, Arrow/* -> */,
-                // // paired
-                // LeftCurly, RightCurly, LeftBrack, RightBrack, LeftParen, RightParen,
-                // // other
-                // EOL, EOF,
-                // // int ops
-                // Plus, Minus, Star, Slash, Mod,
-                // Bwnot, Bwor, Bwand, Bwxor,
-                // // bool ops
-                // Not, Or, And, Xor,
-                // // equality
-                // EQ, NEQ, GT, GTE, LT, LTE,
             let first = *c;
             iter.next(); // next to allow peeking to check for multi-char punctuatiun tokens
-            let second = '\0';
-            if let Some(second) = Some(iter.peek()) {
-                second.unwrap_or(&'\0'); // if there is another char, get it. otherwise, set to \n,
-                // iter.next();          // which will never be part of a punctuation sequence
-            }
+
+            // if there is another char, get it. otherwise, set second to Y,
+            // which will never be part of a punctuation sequence
+            let second = *iter.peek().unwrap_or(&'Y');
             let token = match first {
                 ',' => Separator(Comma),
                 '.' => Separator(Period),
@@ -260,10 +245,12 @@ pub fn lex(input: String) -> Vec<Token> {
             _ => print!("{t:?} "),
         }
     }
+    println!();
+
     tokens
 }
 
-/// Returns whether or not c is alphanumeric or '_' or '-'
+/// Returns whether or not the character is valid for use in an identifier name
 fn is_alphanumplus(c: char) -> bool {
     if c.is_alphanumeric() {return true};
     matches!(c, '_' | '-')
