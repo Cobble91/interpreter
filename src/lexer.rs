@@ -9,21 +9,17 @@ use crate::lexer::tokens::{
     Operator::*,
     Literal::*,
 };
-// use crate::lexer::tokens::*;
 
 const ESC_CHAR: char = '\\';
 
 pub fn lex(input: String) -> Vec<Token> {
     println!("{input}");
-    // let t = Token::Literal(Literal::Integer(73));
-    // println!("t = {t:?}");
 
     let mut tokens: Vec<Token> = Vec::new();
     let mut iter = input.chars().peekable();
     while let Some(c) = iter.peek() {
         // comments
         if *c == '#' {
-            // iter.by_ref
             while iter.peek() != Some(&'\n') {
                 iter.next();
             }
