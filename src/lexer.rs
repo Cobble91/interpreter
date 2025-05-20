@@ -25,10 +25,12 @@ pub fn lex(input: String) -> Vec<Token> {
             }
             print!("(comment) ");
         }
+
         // whitespace
         else if *c == ' ' || *c == '\t' {
             iter.next();
         }
+
         // alphabetic
         else if c.is_alphabetic() || *c == '_' {
             let word:String = iter
@@ -60,6 +62,7 @@ pub fn lex(input: String) -> Vec<Token> {
             };
             tokens.push(token);
         }
+
         // number
         else if c.is_numeric() || *c == '.' {
             let mut found_dot = false;
@@ -93,6 +96,7 @@ pub fn lex(input: String) -> Vec<Token> {
             }
             print!("({word}) ");
         }
+
         // string
         else if *c == '\"' {
             iter.next();
@@ -118,6 +122,7 @@ pub fn lex(input: String) -> Vec<Token> {
             tokens.push(Literal(StringLit(final_string)));
             iter.next();
         }
+
         // EOL
         else if *c == '\n' {
             let _word:String = c.to_string();
@@ -125,6 +130,7 @@ pub fn lex(input: String) -> Vec<Token> {
             tokens.push(Separator(EOL));
             println!();
         }
+
         // punctuation
         else if !c.is_alphanumeric() {
             // let word:String = c.to_string();
@@ -227,6 +233,7 @@ pub fn lex(input: String) -> Vec<Token> {
             tokens.push(token);
             print!("({first}) ");
         }
+
         // should never happen, but want to avoid infinite loop
         else {
             iter.next();
