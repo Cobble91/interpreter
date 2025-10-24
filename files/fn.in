@@ -2,15 +2,15 @@ fn main() {
 
 }
 
-fn test1(int x) {
+fn test1(x: int) {
 
 }
 
-fn test2(float y, string z) {
+fn test2(y: float, z: string) {
 
 }
 
-fn test3(MyType my_func) {
+fn test3(my_func: MyType) {
 
 }
 

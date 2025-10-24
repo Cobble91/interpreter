@@ -1,0 +1,5 @@
+fn main() {
+  const x: int;
+  var y: float;
+  var s: string;
+}

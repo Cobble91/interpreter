@@ -1,1 +1,1 @@
-/home/riddleet/personal/i2/target/debug/libi2.rlib: /home/riddleet/personal/i2/src/lexer.rs /home/riddleet/personal/i2/src/lib.rs /home/riddleet/personal/i2/src/parser.rs
+/home/riddleet/interpreter/target/debug/libi2.rlib: /home/riddleet/interpreter/src/lexer.rs /home/riddleet/interpreter/src/lib.rs /home/riddleet/interpreter/src/parser.rs

@@ -3,5 +3,5 @@
 version = 4
 
 [[package]]
-name = "i2"
+name = "interpreter"
 version = "0.1.0"
