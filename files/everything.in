@@ -1,0 +1,16 @@
+fn main() {
+  int x = 0;
+  bool b = true;
+  string s = "hello world";
+  float f = -123.456;
+  int y = my_func(x);
+  while (x == y) {
+    x = x + 1;
+    my_func(x);
+  }
+}
+
+fn my_func(int x) -> int {
+  int z = x * x;
+  return z;
+}

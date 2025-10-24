@@ -1,7 +1,6 @@
 [package]
-name = "interpreter"
+name = "i2"
 version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-peeking_take_while = "1.0.0"

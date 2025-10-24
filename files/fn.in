@@ -1,0 +1,23 @@
+fn main() {
+
+}
+
+fn test1(int x) {
+
+}
+
+fn test2(float y, string z) {
+
+}
+
+fn test3(MyType my_func) {
+
+}
+
+fn test4() -> int {
+
+}
+
+fn test5() -> MyType {
+
+}
