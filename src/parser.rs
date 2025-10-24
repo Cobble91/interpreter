@@ -80,7 +80,7 @@ fn get_tree(iter: &mut std::iter::Peekable<core::slice::Iter<Token>>, line: &mut
                 token => panic!("({line}) {token} is not a valid function name"),
             }
 
-            // (
+            // check for '('
             if next(iter, line).is_none_or(|x| x.value != TokenType::LeftParen) {
                 panic!("({line}) expected '(' in function declaration");
             }
@@ -94,23 +94,41 @@ fn get_tree(iter: &mut std::iter::Peekable<core::slice::Iter<Token>>, line: &mut
             };
             loop {
                 next_token = next(iter, line);
-                // check for ')' and ','
+                // check for ')', finish params if found
                 if next_token.is_some_and(|x| x.value == TokenType::RightParen) { break } // )
+                // check for ',' whenever there are multiple parameters
                 if mult_params {
-                    if next_token.is_some_and(|x| x.value == TokenType::Comma) {
-                        next_token = next(iter, line);
+                    if next_token.is_none_or(|x| x.value != TokenType::Comma) {
+                        panic!("({line}) expected ',' in function declaration");
                     }
-                    else {
-                        panic!("({line}) expected ','");
-                    }
+                    next_token = next(iter, line);
                 }
+
                 // ok, make param now
                 let mut new_param = Tree{
                     line: *line,
                     value: TreeType::Parameter,
                     params: Vec::new(),
                 };
+
+                // param name
+                if next_token.is_none() {
+                    panic!("({line}) expected parameter name in function declaration");
+                }
+                match next_token.unwrap().value {
+                    TokenType::Identifier(_) => {
+                        new_param.params.push(Tree::leaf(next_token.unwrap().value.clone(), *line));
+                    },
+                    _ => panic!("({line}) expected parameter name in function declaration"),
+                }
+
+                // check for ':'
+                if next(iter, line).is_none_or(|x| x.value != TokenType::Colon) {
+                    panic!("({line}) expected ':' in function declaration");
+                }
+
                 // param type
+                next_token = next(iter, line);
                 if next_token.is_none() {
                     panic!("({line}) expected parameter type or ')' in function declaration");
                 }
@@ -122,17 +140,7 @@ fn get_tree(iter: &mut std::iter::Peekable<core::slice::Iter<Token>>, line: &mut
                     },
                     _ => panic!("({line}) expected parameter type or ')' in function declaration")
                 }
-                // param name
-                next_token = next(iter, line);
-                if next_token.is_none() {
-                    panic!("({line}) expected parameter name in function declaration");
-                }
-                match next_token.unwrap().value {
-                    TokenType::Identifier(_) => {
-                        new_param.params.push(Tree::leaf(next_token.unwrap().value.clone(), *line));
-                    },
-                    _ => panic!("({line}) expected parameter name in function declaration"),
-                }
+                // add param to params list
                 fn_params.params.push(new_param);
                 mult_params = true;
             }
@@ -211,6 +219,7 @@ fn next<'a>(iter: &'a mut std::iter::Peekable<core::slice::Iter<Token>>, line: &
     match iter.next() {
         Some(next_token) => {
             *line = next_token.line;
+            // println!("token: {next_token:?}");
             Some(next_token)
         },
         None => None

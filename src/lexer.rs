@@ -55,6 +55,7 @@ fn get_token(chars: &mut std::iter::Peekable<std::str::Chars>, line_number: &mut
                         TokenType::Period
                     }
                 },
+                ':' => TokenType::Colon,
                 ';' => TokenType::Semicolon,
                 '\'' => TokenType::SQuote,
                 '\"' => lex_string(chars, line_number), // string literal
@@ -96,6 +97,8 @@ fn get_token(chars: &mut std::iter::Peekable<std::str::Chars>, line_number: &mut
 
     // check for keywords
     let new_token_type: Option<TokenType> = match word.as_str() {
+        "const" => Some(TokenType::Const),
+        "var" => Some(TokenType::Var),
         "true" => Some(TokenType::BoolLit(true)),
         "false" => Some(TokenType::BoolLit(false)),
         "int" => Some(TokenType::Int),
@@ -237,7 +240,7 @@ pub enum TokenType {
     LeftParen, RightParen,
     LeftBrack, RightBrack,
     LeftCurly, RightCurly,
-    Comma, Period, Semicolon,
+    Comma, Period, Colon, Semicolon,
     SQuote, DQuote, Backslash, Arrow, // '->'
     Assign, // single '='
     NewLine, // only used to tell the parser which line its currently on
@@ -247,6 +250,7 @@ pub enum TokenType {
     Not, Or, And, Xor,
     Eq, Lt, Gt, Neq, Lte, Gte, // Eq: '=='
     // keyword
+    Const, Var,
     Int, Float, Bool, String, Void, // Array,
     Enum, Struct, Function,
     If, Else, While,
@@ -276,6 +280,7 @@ impl std::fmt::Display for TokenType {
             TokenType::RightCurly => "}",
             TokenType::Comma => ",",
             TokenType::Period => ".",
+            TokenType::Colon => ":",
             TokenType::Semicolon => ";",
             TokenType::SQuote => "'",
             TokenType::DQuote => "\"",
@@ -302,6 +307,8 @@ impl std::fmt::Display for TokenType {
             TokenType::Neq => "!=",
             TokenType::Lte => "<=",
             TokenType::Gte => ">=",
+            TokenType::Const => "const",
+            TokenType::Var => "var",
             TokenType::Int => "int",
             TokenType::Float => "float",
             TokenType::Bool => "bool",
