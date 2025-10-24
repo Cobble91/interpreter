@@ -1,6 +1,3 @@
-// use std::io::Write as _;
-use std::fmt::Write as _;
-
 pub fn lex(input: String) -> Vec<Token> {
     // println!("lexing: {input}");
     let mut tokens: Vec<Token> = Vec::new();
