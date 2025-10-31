@@ -54,8 +54,8 @@ fn get_tree(iter: &mut std::iter::Peekable<core::slice::Iter<Token>>, line: &mut
         TokenType::Neq => todo!(),
         TokenType::Lte => todo!(),
         TokenType::Gte => todo!(),
-        TokenType::Const => todo!(),
-        TokenType::Var => todo!(),
+        TokenType::Const => get_assign(TokenType::Const, iter, line),
+        TokenType::Var => get_assign(TokenType::Var, iter, line),
         TokenType::Int => todo!(),
         TokenType::Float => todo!(),
         TokenType::Bool => todo!(),
@@ -115,7 +115,7 @@ fn get_assign(variable_type: TokenType, iter: &mut std::iter::Peekable<core::sli
         _ => panic!("({line}) expected variable type in assignment")
     }
 
-    // check for ':'
+    // check for '=' or ';'
     next_token = next(iter, line);
     if next_token.is_none() {
         panic!("({line}) expected '=' or ';' in assignment");
@@ -137,6 +137,20 @@ fn get_expression(iter: &mut std::iter::Peekable<core::slice::Iter<Token>>, line
         value: TreeType::Expression,
         params: Vec::new()
     };
+
+    // collect all of the tokens to be parsed
+    let mut tokens: Vec<Token> = Vec::new();
+    loop {
+        let next_token = next(iter, line);
+        if next_token.is_none() {
+            panic!("({line}) expected expression or ';'");
+        }
+        match next_token.unwrap().value {
+            TokenType::Semicolon => break,
+            _ => tokens.push(next_token.unwrap().clone())
+        }
+    }
+    // next(iter, line); // remove ';' from the iter // copied (wrong?) from get_body
 
     new_exp
 }
